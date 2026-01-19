@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>심심해</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #f8e8ee, #e8f0ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 봉투 */
+    .envelope {
+      width: 320px;
+      height: 200px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0s ease;
+    }
+
+    .envelope:hover {
+      transform: scale(1.03);
+    }
+
+    .envelope-body {
+      width: 100%;
+      height: 100%;
+      background: url('envelope_body.png') no-repeat center / 100% 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+    }
+
+    .envelope-body2 {
+      width: 100%;
+      height: 100%;
+      background: url('envelope_body_2.png') no-repeat center / 100% 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0s ease;
+    }
+
+    .envelope-flap {
+      width: 100%;
+      height: 100%;
+      background: url('envelope_flap.png') no-repeat center / 100% 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 50% 0%; /* 플랩 하단 중앙 기준 */
+      transition: transform 0.5s ease;
+      z-index: 3;
+    }
+
+    /* 편지 */
+    .letter {
+      position: absolute;
+      bottom: 50px;
+      left: 10px;
+      width: 100%;
+      height: 100%;
+      background: url('letter_paper.png') no-repeat center / cover;
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-sizing: border-box;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: transform 1s ease, opacity 0.3s ease;
+      z-index: 4;
+      overflow-y: auto;
+    }
+
+    /* 열린 상태 */
+    .open-flap .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .open-flap .letter {
+      opacity: 1;
+    }
+
+    .show-letter .letter {
+     transform: translateY(-100px);
+    }
+    
+    .open-flap .envelope-body2 {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="envelope" class="envelope">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body"></div>
+    <div class="envelope-body2"></div>
+
+
+    <div class="letter">
+    </div>
+  </div>
+
+
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    let step = 0;
+    envelope.addEventListener('click', () => {
+      if (step === 0) {
+        envelope.classList.add('open-flap');
+        step = 1;
+      } else if (step === 1) {
+        envelope.classList.add('show-letter');
+        step = 2;
+      } else {
+        envelope.classList.remove('open-flap', 'show-letter');
+        step = 0;
+      }
+  });
+  </script>
+
+</body>
+</html>
