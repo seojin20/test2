@@ -81,6 +81,53 @@
       overflow-y: auto;
     }
 
+    .choice-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    }
+
+
+    .choice-buttons button {
+    padding: 10px 22px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+
+    #hiddenMessage {
+    margin-top: 20px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    }
+
+
+    #hiddenMessage.show {
+    opacity: 1;
+    }
+
+
+    .heart {
+    position: absolute;
+    font-size: 18px;
+    animation: floatUp 2s ease forwards;
+    pointer-events: none;
+    }
+
+
+    @keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-80px); opacity: 0; }
+    }
+
     /* 열린 상태 */
     .open-flap .envelope-flap {
       transform: rotateX(180deg);
@@ -108,6 +155,13 @@
 
 
     <div class="letter">
+        <div class="footer">
+            <div class="choice-buttons">
+            <button id="yesBtn">YES</button>
+            <button id="noBtn">NO</button>
+            </div>
+        <div id="hiddenMessage">그래도 네 마음을 알고 싶었어 🤍</div>
+        </div>
     </div>
   </div>
 
@@ -116,6 +170,10 @@
   <script>
     const envelope = document.getElementById('envelope');
     let step = 0;
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const hiddenMessage = document.getElementById('hiddenMessage');
+
     envelope.addEventListener('click', () => {
       if (step === 0) {
         envelope.classList.add('open-flap');
@@ -128,6 +186,42 @@
         step = 0;
       }
   });
+
+    yesBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        for (let i = 0; i < 40; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerText = '💖';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = '-20px';
+            heart.style.fontSize = Math.random() * 14 + 14 + 'px';
+            heart.style.animationDuration = Math.random() * 2 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+
+        // const sparkle = document.createElement('div');
+        // sparkle.className = 'sparkle-overlay';
+        // document.body.appendChild(sparkle);
+        // setTimeout(() => sparkle.remove(), 1500);
+
+        for (let i = 0; i < 6; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerText = '💖';
+            heart.style.left = Math.random() * 260 + 'px';
+            heart.style.bottom = '40px';
+            document.querySelector('.letter').appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    });
+
+
+    noBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hiddenMessage.classList.add('show');
+    });
   </script>
 
 </body>
