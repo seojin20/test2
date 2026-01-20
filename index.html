@@ -14,6 +14,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow-x: hidden;
       }
 
       /* 봉투 */
@@ -99,6 +100,7 @@
         z-index: 1;
         cursor: pointer;
 
+        transform: rotate(-50deg);
         transition:
           right 0.6s ease,
           transform 0.4s ease;
@@ -123,11 +125,24 @@
 
       .show-letter .note {
         right: -50px; /* 살짝 보임 */
+        animation: wiggle 1.8s ease-in-out infinite;
       }
 
       .note.open {
         right: -100px;
+        transform: rotate(0deg);
+        animation: none;
         z-index: 6; /* 앞으로 */
+      }
+
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(-8deg) translateX(0);
+        }
+        50% {
+          transform: rotate(-6deg) translateX(2px);
+        }
       }
     </style>
   </head>
@@ -155,9 +170,11 @@
         if (step === 0) {
           envelope.classList.add("open-flap");
           step = 1;
+          vibrate(20);
         } else if (step === 1) {
           envelope.classList.add("show-letter");
           step = 2;
+          vibrate(30);
         } else {
           envelope.classList.remove("show-letter", "open-flap");
           note.classList.remove("open");
@@ -168,7 +185,14 @@
       note.addEventListener("click", (e) => {
         e.stopPropagation(); // 봉투 클릭 방지
         note.classList.toggle("open");
+        vibrate([20, 30, 20]);
       });
+
+      function vibrate(pattern) {
+        if (navigator.vibrate) {
+          navigator.vibrate(pattern);
+        }
+      }
     </script>
   </body>
 </html>
